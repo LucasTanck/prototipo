@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rede Social</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Rede Social</div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Perfil</a></li>
+                <li><a href="#">Configurações</a></li>
+                <li><a href="#">Sair</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="post">
+            <div class="post-header">
+                <h2>Nome do Usuário</h2>
+                <span class="post-date">2 horas atrás</span>
+            </div>
+            <p>Este é um exemplo de post na rede social. Sinta-se à vontade para interagir!</p>
+            <div class="actions">
+                <button class="like-btn"><i class="fas fa-thumbs-up"></i> Curtir</button>
+                <span class="like-count">0 curtidas</span>
+            </div>
+            <div class="comments">
+                <h3>Comentários:</h3>
+                <div class="comment-list"></div>
+                <div class="comment-form">
+                    <input type="text" placeholder="Adicione um comentário...">
+                    <button class="send-comment-btn">Enviar</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Rede Social. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.like-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const likeCountElement = this.nextElementSibling;
+                let count = parseInt(likeCountElement.textContent);
+                count++;
+                likeCountElement.textContent = count + ' curtidas';
+            });
+        });
+
+        document.querySelectorAll('.send-comment-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const commentInput = this.previousElementSibling;
+                const commentText = commentInput.value;
+
+                if (commentText) {
+                    const commentList = this.closest('.comments').querySelector('.comment-list');
+
+                    const commentElement = document.createElement('div');
+                    commentElement.classList.add('comment');
+                    commentElement.innerHTML = `
+                        <strong>Você:</strong> <span>${commentText}</span>
+                        <div class="actions">
+                            <button class="like-comment-btn"><i class="fas fa-thumbs-up"></i> Curtir</button>
+                            <span class="like-comment-count">0 curtidas</span>
+                        </div>
+                    `;
+
+                    commentList.appendChild(commentElement);
+                    commentInput.value = ''; // Limpa o campo de entrada
+
+                    // Adiciona o evento de curtir ao novo botão de curtir do comentário
+                    const likeCommentButton = commentElement.querySelector('.like-comment-btn');
+                    likeCommentButton.addEventListener('click', function() {
+                        const likeCountElement = this.nextElementSibling;
+                        let count = parseInt(likeCountElement.textContent);
+                        count++;
+                        likeCountElement.textContent = count + ' curtidas';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
